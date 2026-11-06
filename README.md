@@ -25,7 +25,7 @@ Pour l'exploration en lecture seule, utiliser l'agent intégré `Explore` (haiku
 Dans une session, une fois le dépôt publié :
 
 ```
-/plugin marketplace add <compte-github>/claude-skills-and-team-for-every-project
+/plugin marketplace add Romain-LM-Dev/claude-skills-and-team-for-every-project
 /plugin install team-for-every-project@skills-and-team
 ```
 
