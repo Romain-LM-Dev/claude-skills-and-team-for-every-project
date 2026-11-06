@@ -1,6 +1,6 @@
 ---
 name: mesure-equipe
-description: Mesure l'équipe d'agents sur les transcripts de Claude Code (tokens par agent, tours, erreurs d'outil, relances, briefs, éditions hors périmètre) et contrôle la carte de propriété ownership.json. À utiliser pour mesurer l'équipe, préparer une rétro, savoir combien de tokens coûte chaque agent, ou vérifier la carte de propriété.
+description: Mesure l'équipe d'agents sur les transcripts Claude Code (tokens par agent, erreurs, relances) et contrôle ownership.json. Pour mesurer l'équipe, une rétro ou vérifier la carte de propriété.
 ---
 Outil de mesure générique : `team_metrics.py`, dans le dossier de base de ce skill (Python 3.10+, bibliothèque standard).
 Il lit les transcripts du projet en lecture seule et sort des agrégats de quelques Ko : ne lis jamais un transcript brut.
