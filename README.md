@@ -1,3 +1,9 @@
+<div align="center">
+
+🇫🇷 Français | 🇬🇧 [English](README.en.md)
+
+</div>
+
 # claude-skills-and-team-for-every-project
 
 Une équipe d'agents Claude Code utilisable dans n'importe quel projet, et des skills importables dans claude.ai.
