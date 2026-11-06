@@ -1,0 +1,12 @@
+{
+  "name": "skills-and-team",
+  "owner": { "name": "Romain LE MOAL" },
+  "description": "Équipe d'agents et skills réutilisables pour tout projet.",
+  "plugins": [
+    {
+      "name": "team-for-every-project",
+      "source": "./",
+      "description": "Équipe d'agents générique économe en tokens, plus les skills d'adaptation au projet et de règles de coût."
+    }
+  ]
+}
