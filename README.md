@@ -22,7 +22,11 @@ le code, opus pour la conception), et des briefs complets pour que chaque sous-a
 | agent `coach-equipe` | rétrospective mesurée sur les transcripts, trois propositions au plus | opus |
 | skill `regles-equipe` | règles de coût, choix du modèle, brief en cinq rubriques (préchargée par l'orchestrateur) | - |
 | skill `adapter-au-projet` | analyse un dépôt, propose des agents de projet, rédige le CLAUDE.md | - |
-| skill `business-game-designer` | conception de business games et de simulations de formation | - |
+| skill `domain-designer` | règles, chiffres, parcours et contenus métier de tout projet, quel que soit le domaine | - |
+| skill `mesure-equipe` | mesure de l'équipe sur les transcripts et contrôle de la carte de propriété (préchargée par coach-equipe) | - |
+
+Pour les business games et les simulations de formation, la skill `business-game-designer` est dans le dépôt frère
+[claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation).
 
 Pour l'exploration en lecture seule, utiliser l'agent intégré `Explore` (haiku), il n'y en a pas de copie ici.
 
@@ -38,6 +42,7 @@ Dans une session, une fois le dépôt publié :
 Sans installer, pour un essai local : `claude --plugin-dir <dossier-du-dépôt>`.
 Les agents du plugin s'appellent `team-for-every-project:orchestrateur`, etc. Un agent de projet ou d'utilisateur de
 même nom les masque (priorité la plus basse pour le plugin).
+Les skills préchargées par un agent ne s'appliquent que quand l'agent est lancé en sous-agent par l'orchestrateur.
 
 ## Activer l'orchestrateur
 

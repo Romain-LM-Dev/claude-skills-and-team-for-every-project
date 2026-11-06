@@ -22,7 +22,11 @@ code, opus for design), and complete briefs so that each subagent starts off on 
 | agent `coach-equipe` | measured retrospective based on transcripts, at most three proposals | opus |
 | skill `regles-equipe` | cost rules, model choice, five-section brief (preloaded by the orchestrator) | - |
 | skill `adapter-au-projet` | analyzes a repository, proposes project agents, writes the CLAUDE.md | - |
-| skill `business-game-designer` | design of business games and training simulations | - |
+| skill `domain-designer` | rules, figures, user journeys and domain content for any project, whatever the domain | - |
+| skill `mesure-equipe` | measures the team from transcripts and checks the ownership map (preloaded by coach-equipe) | - |
+
+For business games and training simulations, the `business-game-designer` skill lives in the sister repository
+[claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation).
 
 For read-only exploration, use the built-in `Explore` agent (haiku); there is no copy of it here.
 
@@ -38,6 +42,7 @@ In a session, once the repository is published:
 Without installing, for a local trial: `claude --plugin-dir <dossier-du-dépôt>`.
 The plugin's agents are named `team-for-every-project:orchestrateur`, etc. A project or user agent with the
 same name hides them (the plugin has the lowest priority).
+Skills preloaded by an agent only apply when the orchestrator launches that agent as a subagent.
 
 ## Enabling the orchestrator
 
