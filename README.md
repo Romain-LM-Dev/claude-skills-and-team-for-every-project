@@ -61,6 +61,14 @@ Le script écrit un ZIP par skill dans `dist/` (ignoré par git), après avoir v
 identique au dossier) et `description` (200 au plus). Puis, dans claude.ai : Customize, Skills, Upload, et choisir le ZIP.
 La skill `regles-equipe` y est utile surtout comme aide-mémoire.
 
+## Priorité du projet
+
+Claude Code ne départage que les agents de même nom : ceux du plugin (préfixés) coexistent avec ceux du projet. Règle
+de l'équipe : un agent ou une skill du projet qui couvre le domaine prime ; ceux du plugin comblent les domaines non
+couverts. `adapter-au-projet` note dans le CLAUDE.md quels agents du plugin chaque agent du projet remplace. Si le
+projet couvre tous les rôles, désactiver le plugin dans son `.claude/settings.json` :
+`"enabledPlugins": {"team-for-every-project@skills-and-team": false}`.
+
 ## Validation
 
 ```

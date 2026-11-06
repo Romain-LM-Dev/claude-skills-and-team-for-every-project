@@ -9,6 +9,11 @@ Un sous-agent coûte un contexte neuf (CLAUDE.md et brief relus). Déléguer ce 
 que le faire directement. Il se justifie pour : une sortie volumineuse à résumer, un travail autonome ou parallèle,
 une relecture à contexte neuf. Sinon, fais-le dans le fil principal.
 
+## Priorité du projet
+Un agent ou une skill du projet (`.claude/agents`, `.claude/skills`) qui couvre le domaine d'une tâche prime toujours.
+Un agent du plugin (`team-for-every-project:...`) ne sert que pour un domaine que le projet ne couvre pas. Avant de
+déléguer, compare les descriptions des agents du projet et du plugin.
+
 ## Choix du modèle
 | Tâche | Modèle |
 |---|---|

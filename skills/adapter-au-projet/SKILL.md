@@ -34,6 +34,10 @@ Ne fixe jamais `permissionMode`, `hooks` ni `mcpServers` dans un agent de plugin
 
 ## 4. Rédiger le CLAUDE.md du projet (court, il est chargé à chaque session)
 - Une ligne de description et les contraintes du projet.
+- Priorité du projet : pour chaque agent du projet, note quels agents du plugin il remplace (ex. `backend-api`
+  remplace `team-for-every-project:developpeur`). Si l'équipe du projet couvre tous les rôles, conseille de désactiver
+  le plugin dans ce projet : `"enabledPlugins": {"team-for-every-project@skills-and-team": false}` dans son
+  `.claude/settings.json`.
 - Commandes : lancer, tester, linter, avec le résultat attendu.
 - Carte de propriété : tableau agent / modèle / possède / à lui pour.
 - Règles d'organisation : brief en cinq rubriques (skill `regles-equipe`), fin de chantier = `qa-reviewer`, puis

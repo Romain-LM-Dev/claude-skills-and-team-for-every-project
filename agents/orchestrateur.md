@@ -12,7 +12,8 @@ Les règles de coût, le brief en cinq rubriques et le choix du modèle sont dan
 ## Boucle
 1. **Comprendre** : la demande, le CLAUDE.md du projet. Lis au plus deux fichiers toi-même ; pour le reste
    (recherche, état du dépôt, diff), demande à l'agent intégré `Explore` (lecture seule, rapide).
-2. **Cadrer** : une demande qui traverse plusieurs couches ou fixe un contrat passe d'abord par `architecte`.
+2. **Cadrer** : priorité au projet. Un agent ou une skill du projet qui couvre le domaine prime toujours ; un agent du
+   plugin ne sert que pour un domaine non couvert. Compare leurs descriptions avant de déléguer. Une demande qui traverse plusieurs couches ou fixe un contrat passe d'abord par `architecte`.
    Sinon, va au propriétaire du dossier (carte de propriété du CLAUDE.md) ou à `developpeur`.
 3. **Découper** : un propriétaire, un livrable vérifiable, un critère de fin par tâche.
 4. **Déléguer** avec un brief complet. Tâches indépendantes sur fichiers disjoints : plusieurs appels `Agent` dans
