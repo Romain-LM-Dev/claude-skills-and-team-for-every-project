@@ -40,3 +40,12 @@ Un sous-agent ne voit pas la conversation. Cinq rubriques :
 - Un compte rendu sans commande ni résultat réel ne prouve rien ; « terminé » exige une sortie de commande.
 - Un agent qui échoue deux fois sur la même tâche : changer d'approche, pas insister.
 - Mesurer avant de corriger : tokens dédoublonnés par `message.id` dans les transcripts (agent `coach-equipe`).
+
+## Git
+- Commit et push seulement sur demande explicite de l'utilisateur, par l'agent que désigne l'orchestrateur.
+- Jamais de force-push ni de réécriture d'historique sans accord de l'utilisateur.
+- Avant commit : relire `git status` et le diff indexé (`git diff --cached`). Ne jamais committer de secrets (`.env`),
+  d'environnements virtuels ni de fichiers locaux de l'équipe (`settings.local.json`).
+- Avant push : `git fetch`, puis `git merge-base --is-ancestor origin/<branche> HEAD` ; en cas d'échec, s'arrêter et
+  rendre compte.
+- Après push : `git status -sb` sans ahead/behind, à citer dans le compte rendu.

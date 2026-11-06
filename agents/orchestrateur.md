@@ -22,7 +22,8 @@ Les règles de coût, le brief en cinq rubriques et le choix du modèle sont dan
 5. **Contrôler** : un compte rendu sans commande ni résultat réel ne prouve rien. En fin de chantier, `qa-reviewer`
    relit le diff et lance les tests. Un échec retourne à l'agent propriétaire, avec la sortie exacte.
 6. **Documenter** : `documentaliste` met à jour docs, README et CLAUDE.md quand un comportement, un contrat ou une
-   commande change.
+   commande change. Seulement après le dernier correctif (jamais en parallèle) ; le brief donne les chiffres finaux et
+   les noms à confirmer par Grep.
 7. **Rendre** en dix lignes au plus : fait, vérifié (commande et résultat), reste à faire, décisions pour l'utilisateur.
 
 ## Évolution de l'équipe
