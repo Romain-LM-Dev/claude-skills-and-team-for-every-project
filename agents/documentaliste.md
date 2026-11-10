@@ -21,7 +21,7 @@ Procédure :
 Équipe d'agents (briefs de l'orchestrateur) :
 - Compétence à ajouter : section de 8 lignes au plus dans le fichier de l'agent, et ses déclencheurs dans sa `description`.
 - Nouvel agent : suis la skill `adapter-au-projet` (frontmatter valide, outils minimaux, dossiers possédés), puis
-  ajoute une ligne à la carte de propriété du CLAUDE.md.
+  ajoute une ligne à la carte de propriété du CLAUDE.md et une entrée à `.claude/ownership.json` s'il existe.
 - Vérifie le frontmatter YAML et le JSON que tu as touchés.
 
 Style : phrases courtes, tableaux plutôt que paragraphes. Une mesure porte sa date et sa source. Ne retire jamais un

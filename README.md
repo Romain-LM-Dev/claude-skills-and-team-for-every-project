@@ -20,13 +20,16 @@ le code, opus pour la conception), et des briefs complets pour que chaque sous-a
 | agent `qa-reviewer` | relit le diff, écrit les tests manquants, lance les vérifications | sonnet |
 | agent `documentaliste` | docs, CLAUDE.md, `.claude/` du projet, création d'agents de projet | sonnet |
 | agent `coach-equipe` | rétrospective mesurée sur les transcripts, trois propositions au plus | opus |
-| skill `regles-equipe` | règles de coût, choix du modèle, brief en cinq rubriques (préchargée par l'orchestrateur) | - |
+| skill `regles-equipe` | règles de coût, choix du modèle, brief en cinq rubriques, preuve, pause et reprise (préchargée par l'orchestrateur) | - |
 | skill `adapter-au-projet` | analyse un dépôt, propose des agents de projet, rédige le CLAUDE.md | - |
 | skill `domain-designer` | règles, chiffres, parcours et contenus métier de tout projet, quel que soit le domaine | - |
 | skill `mesure-equipe` | mesure de l'équipe sur les transcripts et contrôle de la carte de propriété (préchargée par coach-equipe) | - |
 
-Pour les business games et les simulations de formation, la skill `business-game-designer` est dans le dépôt frère
-[claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation).
+Pour les business games et les simulations de formation, le dépôt frère
+[claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation)
+ajoute les agents et skills métier ; son plugin dépend de celui-ci et l'installe avec lui.
+
+Un projet peut ajouter ses propres points de relecture dans son CLAUDE.md : `qa-reviewer` les vérifie.
 
 Pour l'exploration en lecture seule, utiliser l'agent intégré `Explore` (haiku), il n'y en a pas de copie ici.
 

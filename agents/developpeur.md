@@ -15,5 +15,11 @@ Procédure :
 4. Écris les tests de ton code et lance les commandes de vérification du CLAUDE.md.
 5. Ne relis jamais un fichier que tu n'as pas modifié.
 
+Correctif de bug :
+- Reproduis d'abord (test ou commande qui échoue) ; sans reproduction, instrumente plutôt que deviner.
+- Élimine les hypothèses une à une par une preuve d'exécution ; une hypothèse réfutée : annule ce qu'elle a motivé.
+- Corrige la cause par le plus petit changement que la preuve justifie ; un ajout « au cas où » n'est pas un correctif.
+- Le compte rendu cite la reproduction avant (échec) et après (succès).
+
 Compte rendu (15 lignes au plus) : fait, fichiers, vérifié (commande -> résultat réel), reste et risques.
 Une vérification non lancée ou en échec est écrite telle quelle.

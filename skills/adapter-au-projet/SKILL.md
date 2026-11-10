@@ -42,6 +42,7 @@ Ne fixe jamais `permissionMode`, `hooks` ni `mcpServers` dans un agent de plugin
 - Carte de propriété : tableau agent / modèle / possède / à lui pour.
 - Règles d'organisation : brief en cinq rubriques (skill `regles-equipe`), fin de chantier = `qa-reviewer`, puis
   `documentaliste` si une commande ou un contrat a changé.
+- Points de relecture propres au projet, s'il en a (vérifiés par `qa-reviewer`).
 - Où lire en premier (docs, ADR).
 
 ## 5. Valider

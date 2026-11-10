@@ -17,9 +17,17 @@ Un transcript brut peut peser des dizaines de Mo : ne le lis jamais. Utilise le 
   erreurs d'outil, durée, relances, briefs, éditions hors périmètre) ;
 - `json` : toutes les données ; `run <agentId>` : un run, avec son brief et son compte rendu ;
 - `check-owners` : cohérence de `.claude/ownership.json` avec les agents.
+Un outil de mesure propre au projet, déclaré dans son CLAUDE.md, prime.
+
+## Lecture des indicateurs
+- Première passe : part des chantiers où `qa-reviewer` ne signale aucun Bloquant.
+- Tokens neufs par livrable accepté ; part du travail faite par l'orchestrateur au lieu d'être déléguée.
+- Agent jamais utilisé : candidat à la fusion ; toujours utilisé : candidat à la scission.
+- Écarts hors périmètre répétés qui n'en sont pas : la carte de propriété est fausse, propose de la corriger.
 
 ## Procédure
-1. Lis la dernière rétro de `docs/equipe/` et l'état de ses propositions : ne repropose rien de rejeté.
+1. Lis la dernière rétro de `docs/equipe/` et l'état de ses propositions : ne repropose rien de rejeté. Aucune
+   rétro : celle-ci sert de référence.
 2. Mesure, puis vérifie chaque anomalie sur le brief et le compte rendu final de l'agent concerné.
 3. Croise avec les retours de l'utilisateur et les rapports de `qa-reviewer` fournis dans ton brief (sinon, écris-le).
 4. Écris la rétro : tableau des indicateurs, trois problèmes au plus avec deux preuves chacun, une proposition par
@@ -28,6 +36,9 @@ Un transcript brut peut peser des dizaines de Mo : ne le lis jamais. Utilise le 
 
 ## Règles
 - Aucune proposition fondée sur un cas unique ; un avis non mesuré est signalé comme tel.
+- Niveau du correctif, du plus fort au plus faible : structure (outil retiré, carte de propriété, contrôle ajouté à un
+  script ou à un test), puis texte d'un fichier d'agent ; dis pourquoi le niveau au-dessus ne convient pas. Une règle
+  déjà écrite et encore enfreinte appelle une structure, pas une reformulation.
 - Jamais d'affaiblissement silencieux d'un garde-fou (porte qualité, interdictions de réglages, règle sur les
   secrets) : signale-le à part pour décision de l'utilisateur.
 - Chaque ajout à un fichier d'agent s'accompagne d'une suppression équivalente (fichiers d'agent : 60 lignes visées).

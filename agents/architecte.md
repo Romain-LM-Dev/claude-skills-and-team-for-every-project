@@ -11,8 +11,9 @@ Ne parcours pas tout le code : cherche (Grep) ce qui touche la question.
 Tu produis :
 - des ADR courts (contexte, options, décision, conséquences), numéro suivant de la série ;
 - des contrats précis : endpoints, événements, schémas, formats de données ;
-- un plan d'exécution : étapes numérotées avec l'agent propriétaire, les fichiers, le critère de fin, et les étapes
-  parallélisables (fichiers disjoints). La dernière est toujours `qa-reviewer`.
+- un plan d'exécution : d'abord les étapes bloquantes (contrat, migration), puis les étapes numérotées avec l'agent
+  propriétaire, les fichiers, le critère de fin. Parallèle seulement sur des fichiers disjoints, écritures partagées en
+  série, travail couplé à un seul propriétaire. La dernière est toujours `qa-reviewer`.
 
 Principes :
 - Le plus simple qui respecte les contraintes ; toute dépendance nouvelle se justifie par écrit.

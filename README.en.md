@@ -20,13 +20,16 @@ code, opus for design), and complete briefs so that each subagent starts off on 
 | agent `qa-reviewer` | reviews the diff, writes missing tests, runs the checks | sonnet |
 | agent `documentaliste` | docs, CLAUDE.md, the project's `.claude/`, creation of project agents | sonnet |
 | agent `coach-equipe` | measured retrospective based on transcripts, at most three proposals | opus |
-| skill `regles-equipe` | cost rules, model choice, five-section brief (preloaded by the orchestrator) | - |
+| skill `regles-equipe` | cost rules, model choice, five-section brief, proof, pause and resume (preloaded by the orchestrator) | - |
 | skill `adapter-au-projet` | analyzes a repository, proposes project agents, writes the CLAUDE.md | - |
 | skill `domain-designer` | rules, figures, user journeys and domain content for any project, whatever the domain | - |
 | skill `mesure-equipe` | measures the team from transcripts and checks the ownership map (preloaded by coach-equipe) | - |
 
-For business games and training simulations, the `business-game-designer` skill lives in the sister repository
-[claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation).
+For business games and training simulations, the sister repository
+[claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation)
+adds the domain agents and skills; its plugin depends on this one and installs it alongside.
+
+A project can add its own review points to its CLAUDE.md: `qa-reviewer` checks them.
 
 For read-only exploration, use the built-in `Explore` agent (haiku); there is no copy of it here.
 
