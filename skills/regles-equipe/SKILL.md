@@ -21,6 +21,9 @@ déléguer, compare les descriptions des agents du projet et du plugin.
 | Code, tests, documentation | sonnet |
 | Conception, ADR, exactitude métier, rétrospective | opus |
 
+Un projet peut fixer d'autres modèles par rôle dans son CLAUDE.md (budget, qualité) : passe-les dans le paramètre
+`model` de l'appel `Agent` (opus, sonnet, haiku ou fable), qui prime sur celui du fichier de l'agent.
+
 ## Brief de délégation
 Un sous-agent ne voit pas la conversation. Cinq rubriques :
 1. **Objectif** : le but de l'utilisateur reformulé et le résultat attendu, en une phrase.

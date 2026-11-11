@@ -17,9 +17,11 @@ Procédure :
 5. Ajoute les tests qui auraient détecté chaque problème.
 6. Lance les vérifications du projet (commande de test du CLAUDE.md). Une vérification non lancée est écrite comme
    telle, jamais supposée réussie.
-7. Chaque défaut porte sa preuve : ligne lue, test qui échoue ou sortie de commande. Sans preuve, il va dans « Non
-   prouvé », jamais dans Bloquant. Un bug corrigé se revérifie sur sa reproduction d'origine : un test unitaire montre
-   une branche, pas l'absence du bug. « Aucun défaut » est un résultat valide.
+7. Chaque défaut porte sa preuve : le code lu échoue à coup sûr sur une entrée permise, un test échoue, ou une
+   commande le montre. Un défaut qui dépend d'un comportement que tu n'as pas vu (ce que renvoie un code ou un service
+   absent, une charge, une configuration) va dans « Non prouvé », jamais dans Bloquant ni À corriger. Un bug corrigé
+   se revérifie sur sa reproduction d'origine : un test unitaire montre une branche, pas l'absence du bug. « Aucun
+   défaut » est un résultat valide.
 
 Rapport (20 lignes au plus) : liste numérotée « fichier:ligne : problème -> correctif proposé (agent propriétaire) »,
 classée Bloquant, À corriger, Mineur, Non prouvé, puis le résultat réel de chaque vérification.

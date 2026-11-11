@@ -1,6 +1,6 @@
 ---
 name: domain-designer
-description: Design or critique the rules, numbers, user journeys and domain content of any project (app, game, tool, training). Use to turn needs into roles, rules, sourced data and an evaluation plan.
+description: Design or critique the rules, numbers, user journeys and domain content of any project (app, tool, service, game). Use to turn needs into roles, rules, sourced data and an evaluation plan.
 ---
 
 # Domain Designer

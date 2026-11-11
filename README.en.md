@@ -63,6 +63,9 @@ Every agent and every skill adds its name and description to the context of ever
 short. A subagent starts cold; only delegate large outputs, autonomous or parallel work,
 or an independent review to it. The details are in `skills/regles-equipe/SKILL.md`.
 
+Measured on 2026-11-10 with `claude plugin details team-for-every-project@skills-and-team`: about 990 tokens always
+on per session, then 440 to 2,200 tokens each time an agent or skill is invoked.
+
 ## Using the skills in claude.ai
 
 Agents and hooks do not run in the claude.ai chat; only skills can be imported there, as ZIP files.
@@ -89,6 +92,30 @@ project covers every role, disable the plugin in its `.claude/settings.json`:
 claude plugin validate .
 claude plugin validate . --strict
 ```
+
+GitHub CI (`.github/workflows/validate.yml`) runs strict validation, skill packaging (fails if a skill is skipped)
+and the `team_metrics.py` self-test on every push.
+
+## Evaluations
+
+`evals/` holds three cases that check agent behavior: the orchestrator stops on a request that is already met,
+`qa-reviewer` files an unverifiable doubt under "Non prouvé", `developpeur` reproduces a bug before fixing it. Each run
+spends tokens and needs a logged-in session: run them by hand.
+
+```
+claude plugin eval . --ablation none --no-publish --trust-plugin --allow-tools Bash Write Edit --case qa-non-prouve
+```
+
+`--ablation none`: without the plugin, the called agent does not exist. `--no-publish` keeps the report local
+(`evals/results/`, ignored by git). Bash is only needed by `dev-reproduit-avant`, which must run code.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Agents or skills from an old version | auto-update is off by default for third-party marketplaces | `claude plugin update team-for-every-project@skills-and-team`, then restart |
+| A preloaded skill is not applied | the agent was not launched as a subagent | go through the orchestrator, or load the skill with the Skill tool |
+| `claude plugin prune` offers to remove this plugin | it was installed as a dependency of business-game | reinstall it explicitly: `claude plugin install team-for-every-project@skills-and-team` |
 
 ## License
 

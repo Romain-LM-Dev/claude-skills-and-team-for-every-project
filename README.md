@@ -63,6 +63,9 @@ Chaque agent et chaque skill ajoute son nom et sa description au contexte de cha
 court. Un sous-agent démarre à froid ; ne lui déléguer que des sorties volumineuses, du travail autonome ou parallèle,
 une relecture indépendante. Le détail est dans `skills/regles-equipe/SKILL.md`.
 
+Mesuré le 2026-11-10 avec `claude plugin details team-for-every-project@skills-and-team` : environ 990 tokens
+permanents par session, puis de 440 à 2 200 tokens à chaque appel d'un agent ou d'une skill.
+
 ## Utiliser les skills dans claude.ai
 
 Les agents et les hooks ne tournent pas dans le chat claude.ai ; seules les skills s'y importent, par ZIP.
@@ -89,6 +92,30 @@ projet couvre tous les rôles, désactiver le plugin dans son `.claude/settings.
 claude plugin validate .
 claude plugin validate . --strict
 ```
+
+La CI GitHub (`.github/workflows/validate.yml`) lance à chaque push la validation stricte, le packaging des skills
+(échec si une skill est ignorée) et l'auto-test de `team_metrics.py`.
+
+## Évaluations
+
+`evals/` contient trois cas qui vérifient le comportement des agents : l'orchestrateur s'arrête sur une demande déjà
+satisfaite, `qa-reviewer` range un doute invérifiable dans « Non prouvé », `developpeur` reproduit un bug avant de le
+corriger. Chaque exécution consomme des tokens et demande une session connectée : à lancer à la main.
+
+```
+claude plugin eval . --ablation none --no-publish --trust-plugin --allow-tools Bash Write Edit --case qa-non-prouve
+```
+
+`--ablation none` : sans le plugin, l'agent appelé n'existe pas. `--no-publish` garde le rapport en local
+(`evals/results/`, ignoré par git). Bash n'est utile qu'à `dev-reproduit-avant`, qui doit exécuter du code.
+
+## Dépannage
+
+| Symptôme | Cause | Remède |
+|---|---|---|
+| Agents ou skills d'une ancienne version | mise à jour automatique désactivée par défaut pour une marketplace tierce | `claude plugin update team-for-every-project@skills-and-team`, puis redémarrer |
+| Une skill préchargée n'est pas appliquée | l'agent n'a pas été lancé en sous-agent | passer par l'orchestrateur, ou charger la skill avec l'outil Skill |
+| `claude plugin prune` propose de supprimer ce plugin | il a été installé comme dépendance de business-game | le réinstaller explicitement : `claude plugin install team-for-every-project@skills-and-team` |
 
 ## Licence
 

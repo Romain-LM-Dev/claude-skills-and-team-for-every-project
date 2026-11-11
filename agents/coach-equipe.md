@@ -17,7 +17,8 @@ Un transcript brut peut peser des dizaines de Mo : ne le lis jamais. Utilise le 
   erreurs d'outil, durée, relances, briefs, éditions hors périmètre) ;
 - `json` : toutes les données ; `run <agentId>` : un run, avec son brief et son compte rendu ;
 - `check-owners` : cohérence de `.claude/ownership.json` avec les agents.
-Un outil de mesure propre au projet, déclaré dans son CLAUDE.md, prime.
+Un outil de mesure propre au projet, déclaré dans son CLAUDE.md, prime. Coût fixe par tour des agents et skills
+d'un plugin : `claude plugin details <plugin>`.
 
 ## Lecture des indicateurs
 - Première passe : part des chantiers où `qa-reviewer` ne signale aucun Bloquant.

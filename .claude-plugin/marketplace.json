@@ -6,7 +6,7 @@
     {
       "name": "team-for-every-project",
       "source": "./",
-      "description": "Équipe d'agents générique économe en tokens, plus les skills d'adaptation au projet et de règles de coût."
+      "description": "Équipe d'agents générique économe en tokens, avec les skills de règles d'équipe, d'adaptation au projet, de conception métier et de mesure de l'équipe."
     }
   ]
 }

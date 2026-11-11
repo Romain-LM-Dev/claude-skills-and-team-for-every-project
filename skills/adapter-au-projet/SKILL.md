@@ -43,6 +43,7 @@ Ne fixe jamais `permissionMode`, `hooks` ni `mcpServers` dans un agent de plugin
 - Règles d'organisation : brief en cinq rubriques (skill `regles-equipe`), fin de chantier = `qa-reviewer`, puis
   `documentaliste` si une commande ou un contrat a changé.
 - Points de relecture propres au projet, s'il en a (vérifiés par `qa-reviewer`).
+- Modèles par rôle, seulement si le projet s'écarte des défauts (ex. `Modèles : architecte sonnet`).
 - Où lire en premier (docs, ADR).
 
 ## 5. Valider
