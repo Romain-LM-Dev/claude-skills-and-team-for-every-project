@@ -103,11 +103,12 @@ and the `team_metrics.py` self-test on every push.
 spends tokens and needs a logged-in session: run them by hand.
 
 ```
-claude plugin eval . --ablation none --no-publish --trust-plugin --allow-tools Bash Write Edit --case qa-non-prouve
+claude plugin eval . --ablation none --no-publish --trust-plugin --allow-tools Write Edit --case qa-non-prouve
 ```
 
 `--ablation none`: without the plugin, the called agent does not exist. `--no-publish` keeps the report local
-(`evals/results/`, ignored by git). Bash is only needed by `dev-reproduit-avant`, which must run code.
+(`evals/results/`, ignored by git). `dev-reproduit-avant` must run code: it also needs `Bash` in `--allow-tools`,
+which evals only grant on Linux or macOS with the sandbox installed (on Windows, use WSL).
 
 ## Troubleshooting
 

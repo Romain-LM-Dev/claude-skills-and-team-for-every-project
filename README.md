@@ -103,11 +103,12 @@ satisfaite, `qa-reviewer` range un doute invérifiable dans « Non prouvé », `
 corriger. Chaque exécution consomme des tokens et demande une session connectée : à lancer à la main.
 
 ```
-claude plugin eval . --ablation none --no-publish --trust-plugin --allow-tools Bash Write Edit --case qa-non-prouve
+claude plugin eval . --ablation none --no-publish --trust-plugin --allow-tools Write Edit --case qa-non-prouve
 ```
 
 `--ablation none` : sans le plugin, l'agent appelé n'existe pas. `--no-publish` garde le rapport en local
-(`evals/results/`, ignoré par git). Bash n'est utile qu'à `dev-reproduit-avant`, qui doit exécuter du code.
+(`evals/results/`, ignoré par git). `dev-reproduit-avant` doit exécuter du code : il lui faut `Bash` en plus dans
+`--allow-tools`, que l'eval n'accorde que sous Linux ou macOS, bac à sable installé (sous Windows, passer par WSL).
 
 ## Dépannage
 

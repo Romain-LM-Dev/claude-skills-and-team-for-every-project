@@ -1,5 +1,5 @@
 ---
-description: Le développeur reproduit le bug avant de le corriger et cite la reproduction avant et après.
+description: Le développeur reproduit le bug avant de le corriger et cite la reproduction avant et après. Demande --allow-tools Bash, donc Linux ou macOS (WSL sous Windows).
 model: sonnet
 max_turns: 20
 timeout_seconds: 900
