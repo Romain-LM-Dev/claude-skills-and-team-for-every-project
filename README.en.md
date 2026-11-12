@@ -24,6 +24,7 @@ code, opus for design), and complete briefs so that each subagent starts off on 
 | skill `adapter-au-projet` | analyzes a repository, proposes project agents, writes the CLAUDE.md | - |
 | skill `domain-designer` | rules, figures, user journeys and domain content for any project, whatever the domain | - |
 | skill `mesure-equipe` | measures the team from transcripts and checks the ownership map (preloaded by coach-equipe) | - |
+| skill `choisir-modeles` | measured review of each agent's model and effort when a model ships (`/team-for-every-project:choisir-modeles`, no per-turn cost) | - |
 
 For business games and training simulations, the sister repository
 [claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation)
@@ -57,14 +58,33 @@ It is not forced: on a small task it costs more than it saves. For a project spa
 
 To adapt the team to a repository, ask: "use the adapter-au-projet skill".
 
+## Models
+
+Each agent carries a tier (`haiku`, `sonnet`, `opus`, `fable`) and an effort. An alias follows the recommended version
+of its family on its own: a new Opus version is picked up without a plugin update. When the ranking shifts (new
+family, price cut), `/team-for-every-project:choisir-modeles` compares settings with the evals and keeps the cheapest
+one that holds quality. A measured override is written `Modèles : <agent> <alias> <effort>, ...` in a project's
+CLAUDE.md or in `~/.claude/rules/modeles-equipe.md`.
+
+Last review: 2026-11-12, Claude Code 2.1.322, prices from the `claude-api` skill table (2026-11-03).
+
+| Role | Setting | Eval | Score | Cost of 3 runs | Decision |
+|---|---|---|---|---|---|
+| qa-reviewer | sonnet, effort medium (default) | qa-non-prouve | 3/3 | $0.29 | kept |
+| qa-reviewer | haiku, effort medium | qa-non-prouve | 3/3 | $0.23 | lead: a second case before lowering the quality gate |
+| orchestrateur | session model (sonnet) | orchestrateur-arrete | 3/3 | $0.28 | kept |
+
+The other roles have no eval case yet: they keep their default tier.
+
 ## Cost
 
 Every agent and every skill adds its name and description to the context of every turn: the whole set is deliberately kept
 short. A subagent starts cold; only delegate large outputs, autonomous or parallel work,
 or an independent review to it. The details are in `skills/regles-equipe/SKILL.md`.
 
-Measured on 2026-11-10 with `claude plugin details team-for-every-project@skills-and-team`: about 990 tokens always
-on per session, then 440 to 2,200 tokens each time an agent or skill is invoked.
+Estimated on 2026-11-12 with `claude plugin details team-for-every-project@skills-and-team`: about 1,070 tokens
+always on per session (the tool also counts `choisir-modeles`, which the model does not see), then 450 to 2,300 tokens
+each time an agent or skill is invoked.
 
 ## Using the skills in claude.ai
 

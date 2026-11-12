@@ -16,8 +16,8 @@ description: Adapte l'équipe d'agents à un dépôt. Analyse pile, dossiers et 
 L'équipe générique du plugin (orchestrateur, architecte, developpeur, qa-reviewer, documentaliste, coach-equipe)
 suffit pour un petit projet : ne crée rien. Ajoute un agent de projet seulement si un dossier a des règles propres
 et un volume de travail récurrent. Exemples : frontend, backend, data, infra, rédaction, tests e2e.
-Chaque agent proposé : nom, dossiers possédés (un dossier = un propriétaire), modèle (haiku mécanique, sonnet code,
-opus conception), outils minimaux, règles propres au dossier. Quatre à six agents de projet au maximum.
+Chaque agent proposé : nom, dossiers possédés (un dossier = un propriétaire), modèle et effort (paliers de
+`regles-equipe`), outils minimaux, règles propres au dossier. Quatre à six agents de projet au maximum.
 
 ## 3. Écrire dans `.claude/agents/<nom>.md` du projet
 ```
@@ -43,7 +43,8 @@ Ne fixe jamais `permissionMode`, `hooks` ni `mcpServers` dans un agent de plugin
 - Règles d'organisation : brief en cinq rubriques (skill `regles-equipe`), fin de chantier = `qa-reviewer`, puis
   `documentaliste` si une commande ou un contrat a changé.
 - Points de relecture propres au projet, s'il en a (vérifiés par `qa-reviewer`).
-- Modèles par rôle, seulement si le projet s'écarte des défauts (ex. `Modèles : architecte sonnet`).
+- Ligne `Modèles : <agent> <alias> <effort>, ...` seulement si une mesure (`choisir-modeles`) justifie de s'écarter
+  des défauts.
 - Où lire en premier (docs, ADR).
 
 ## 5. Valider

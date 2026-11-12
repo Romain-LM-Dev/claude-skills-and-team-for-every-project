@@ -24,6 +24,7 @@ le code, opus pour la conception), et des briefs complets pour que chaque sous-a
 | skill `adapter-au-projet` | analyse un dépôt, propose des agents de projet, rédige le CLAUDE.md | - |
 | skill `domain-designer` | règles, chiffres, parcours et contenus métier de tout projet, quel que soit le domaine | - |
 | skill `mesure-equipe` | mesure de l'équipe sur les transcripts et contrôle de la carte de propriété (préchargée par coach-equipe) | - |
+| skill `choisir-modeles` | revue mesurée du modèle et de l'effort de chaque agent quand un modèle sort (`/team-for-every-project:choisir-modeles`, aucun coût par tour) | - |
 
 Pour les business games et les simulations de formation, le dépôt frère
 [claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation)
@@ -57,14 +58,33 @@ Il n'est pas forcé : il coûte plus qu'il n'économise sur une petite tâche. P
 
 Pour adapter l'équipe à un dépôt, demander : « utilise la skill adapter-au-projet ».
 
+## Modèles
+
+Chaque agent porte un palier (`haiku`, `sonnet`, `opus`, `fable`) et un effort. Un alias suit seul la version
+recommandée de sa famille : une nouvelle version d'Opus est prise sans mise à jour du plugin. Quand les rangs bougent
+(nouvelle famille, baisse de prix), `/team-for-every-project:choisir-modeles` compare les réglages avec les évals et
+garde le moins cher qui tient la qualité. Une surcharge mesurée s'écrit `Modèles : <agent> <alias> <effort>, ...` dans
+le CLAUDE.md d'un projet ou dans `~/.claude/rules/modeles-equipe.md`.
+
+Dernière revue : 2026-11-12, Claude Code 2.1.322, prix du tableau de la skill `claude-api` (2026-11-03).
+
+| Rôle | Réglage | Éval | Score | Coût de 3 exécutions | Décision |
+|---|---|---|---|---|---|
+| qa-reviewer | sonnet, effort medium (défaut) | qa-non-prouve | 3/3 | 0,29 $ | gardé |
+| qa-reviewer | haiku, effort medium | qa-non-prouve | 3/3 | 0,23 $ | piste : un second cas avant de baisser la porte de qualité |
+| orchestrateur | modèle de la session (sonnet) | orchestrateur-arrete | 3/3 | 0,28 $ | gardé |
+
+Les autres rôles n'ont pas encore de cas d'éval : ils gardent leur palier par défaut.
+
 ## Coût
 
 Chaque agent et chaque skill ajoute son nom et sa description au contexte de chaque tour : l'ensemble reste volontairement
 court. Un sous-agent démarre à froid ; ne lui déléguer que des sorties volumineuses, du travail autonome ou parallèle,
 une relecture indépendante. Le détail est dans `skills/regles-equipe/SKILL.md`.
 
-Mesuré le 2026-11-10 avec `claude plugin details team-for-every-project@skills-and-team` : environ 990 tokens
-permanents par session, puis de 440 à 2 200 tokens à chaque appel d'un agent ou d'une skill.
+Estimé le 2026-11-12 avec `claude plugin details team-for-every-project@skills-and-team` : environ 1 070 tokens
+permanents par session (l'outil compte aussi `choisir-modeles`, que le modèle ne voit pas), puis de 450 à 2 300 tokens
+à chaque appel d'un agent ou d'une skill.
 
 ## Utiliser les skills dans claude.ai
 

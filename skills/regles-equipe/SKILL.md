@@ -15,14 +15,19 @@ Un agent du plugin (`team-for-every-project:...`) ne sert que pour un domaine qu
 déléguer, compare les descriptions des agents du projet et du plugin.
 
 ## Choix du modèle
-| Tâche | Modèle |
+Chaque agent porte un palier (`model`) et un `effort` ; un alias suit seul la dernière version de sa famille.
+| Tâche | Palier par défaut |
 |---|---|
 | Mécanique : recherche, renommage, lancement de commandes, relevé | haiku (agent intégré `Explore` pour lire) |
 | Code, tests, documentation | sonnet |
 | Conception, ADR, exactitude métier, rétrospective | opus |
+| Problème le plus dur, après un échec d'opus | fable |
 
-Un projet peut fixer d'autres modèles par rôle dans son CLAUDE.md (budget, qualité) : passe-les dans le paramètre
-`model` de l'appel `Agent` (opus, sonnet, haiku ou fable), qui prime sur celui du fichier de l'agent.
+Surcharges mesurées : une ligne `Modèles : <agent> <alias> <effort>, ...` dans le CLAUDE.md du projet ou dans
+`~/.claude/rules/modeles-equipe.md` (le projet l'emporte). Passe-les dans les paramètres `model` et `effort` de l'appel
+`Agent`, qui priment sur le fichier de l'agent. Effort : celui de l'agent ; `low` pour une tâche courte ou mécanique,
+plus haut seulement pour une tâche difficile ou après un échec. Revue des paliers quand un modèle sort :
+`/team-for-every-project:choisir-modeles`.
 
 ## Brief de délégation
 Un sous-agent ne voit pas la conversation. Cinq rubriques :

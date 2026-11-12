@@ -16,6 +16,7 @@ foreach ($dir in Get-ChildItem (Join-Path $root 'skills') -Directory) {
     $desc = if ($text -match '(?m)^description:\s*(.+?)\s*$') { $Matches[1] } else { '' }
     # claude.ai refuse toute autre clé de frontmatter à l'import
     $front = if ($text -match '(?s)^﻿?---\r?\n(.*?)\r?\n---') { $Matches[1] } else { '' }
+    if ($front -match '(?m)^disable-model-invocation:\s*true\s*$') { Write-Host "-- $($dir.Name) : Claude Code seulement, pas de ZIP"; continue }
     $badKeys = [regex]::Matches($front, '(?m)^([A-Za-z][\w-]*):') | ForEach-Object { $_.Groups[1].Value } |
         Where-Object { $_ -notin 'name', 'description', 'license', 'compatibility', 'metadata', 'allowed-tools' }
     if ($name -ne $dir.Name -or $name.Length -gt 64 -or $desc.Length -eq 0 -or $desc.Length -gt 200 -or $badKeys) {

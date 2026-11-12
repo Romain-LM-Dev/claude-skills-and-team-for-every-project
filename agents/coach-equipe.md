@@ -25,6 +25,8 @@ d'un plugin : `claude plugin details <plugin>`.
 - Tokens neufs par livrable accepté ; part du travail faite par l'orchestrateur au lieu d'être déléguée.
 - Agent jamais utilisé : candidat à la fusion ; toujours utilisé : candidat à la scission.
 - Écarts hors périmètre répétés qui n'en sont pas : la carte de propriété est fausse, propose de la corriger.
+- Modèles : un agent coûteux à première passe stable, ou un modèle sorti depuis la dernière revue des modèles, appelle
+  `/team-for-every-project:choisir-modeles` (proposition, pas changement direct).
 
 ## Procédure
 1. Lis la dernière rétro de `docs/equipe/` et l'état de ses propositions : ne repropose rien de rejeté. Aucune
