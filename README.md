@@ -25,6 +25,7 @@ le code, opus pour la conception), et des briefs complets pour que chaque sous-a
 | skill `domain-designer` | règles, chiffres, parcours et contenus métier de tout projet, quel que soit le domaine | - |
 | skill `mesure-equipe` | mesure de l'équipe sur les transcripts et contrôle de la carte de propriété (préchargée par coach-equipe) | - |
 | skill `choisir-modeles` | revue mesurée du modèle et de l'effort de chaque agent quand un modèle sort (`/team-for-every-project:choisir-modeles`, aucun coût par tour) | - |
+| skill `auditer-projet` | audite un projet et classe les améliorations par gain prouvé (mesure, test, source datée), jusqu'au changement de langage ou d'outil s'il est mesuré meilleur ; savoir enrichi à chaque audit, barre de preuve fixe quel que soit le modèle | - |
 
 Pour les business games et les simulations de formation, le dépôt frère
 [claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation)
@@ -118,9 +119,10 @@ La CI GitHub (`.github/workflows/validate.yml`) lance à chaque push la validati
 
 ## Évaluations
 
-`evals/` contient trois cas qui vérifient le comportement des agents : l'orchestrateur s'arrête sur une demande déjà
-satisfaite, `qa-reviewer` range un doute invérifiable dans « Non prouvé », `developpeur` reproduit un bug avant de le
-corriger. Chaque exécution consomme des tokens et demande une session connectée : à lancer à la main.
+`evals/` contient quatre cas qui vérifient le comportement des agents et des skills : l'orchestrateur s'arrête sur
+une demande déjà satisfaite, `qa-reviewer` range un doute invérifiable dans « Non prouvé », `developpeur` reproduit un
+bug avant de le corriger, `auditer-projet` (`audit-preuve`, ajouter `Skill` à `--allow-tools`) trouve la vraie cause
+d'une lenteur et refuse une réécriture dans un autre langage sans prototype mesuré. Chaque exécution consomme des tokens et demande une session connectée : à lancer à la main.
 
 ```
 claude plugin eval . --ablation none --no-publish --trust-plugin --allow-tools Write Edit --case qa-non-prouve

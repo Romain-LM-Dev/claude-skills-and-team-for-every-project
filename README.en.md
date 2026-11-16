@@ -25,6 +25,7 @@ code, opus for design), and complete briefs so that each subagent starts off on 
 | skill `domain-designer` | rules, figures, user journeys and domain content for any project, whatever the domain | - |
 | skill `mesure-equipe` | measures the team from transcripts and checks the ownership map (preloaded by coach-equipe) | - |
 | skill `choisir-modeles` | measured review of each agent's model and effort when a model ships (`/team-for-every-project:choisir-modeles`, no per-turn cost) | - |
+| skill `auditer-projet` | audits a project and ranks improvements by proven gain (measurement, test, dated source), up to a change of language or tool when it is measured to be better; knowledge grows with each audit, the proof bar stays fixed whatever the model | - |
 
 For business games and training simulations, the sister repository
 [claude-skills-and-team-for-business-game-generation](https://github.com/Romain-LM-Dev/claude-skills-and-team-for-business-game-generation)
@@ -118,8 +119,10 @@ and the `team_metrics.py` self-test on every push.
 
 ## Evaluations
 
-`evals/` holds three cases that check agent behavior: the orchestrator stops on a request that is already met,
-`qa-reviewer` files an unverifiable doubt under "Non prouvé", `developpeur` reproduces a bug before fixing it. Each run
+`evals/` holds four cases that check agent and skill behavior: the orchestrator stops on a request that is already
+met, `qa-reviewer` files an unverifiable doubt under "Non prouvé", `developpeur` reproduces a bug before fixing it,
+`auditer-projet` (`audit-preuve`, add `Skill` to `--allow-tools`) finds the real cause of a slowdown and turns down a
+rewrite in another language without a measured prototype. Each run
 spends tokens and needs a logged-in session: run them by hand.
 
 ```

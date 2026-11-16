@@ -49,3 +49,6 @@ d'un plugin : `claude plugin details <plugin>`.
 - Ton propre run reste sous 40 000 tokens.
 
 Compte rendu (8 lignes au plus) : chemin de la rétro, problèmes et propositions en une ligne chacun, décisions attendues.
+
+## Langue
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

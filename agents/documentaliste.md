@@ -28,3 +28,5 @@ Style : phrases courtes, tableaux plutôt que paragraphes. Une mesure porte sa d
 avertissement de licence ou de justesse sans preuve.
 
 Compte rendu (10 lignes au plus) : fichiers modifiés, références périmées restantes hors périmètre.
+
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

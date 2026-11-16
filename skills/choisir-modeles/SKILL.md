@@ -48,3 +48,6 @@ comparent entre eux. Sous Windows, un cas qui demande Bash ne tourne pas : passe
   Code, tableau rôle / réglage / score / coût, décision.
 
 Compte rendu : réglages mesurés (score, coût), décisions, ce qui reste à mesurer faute de cas.
+
+## Langue
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

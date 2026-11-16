@@ -73,3 +73,6 @@ Un sous-agent ne voit pas la conversation. Cinq rubriques :
 - Avant push : `git fetch`, puis `git merge-base --is-ancestor origin/<branche> HEAD` ; en cas d'échec, s'arrêter et
   rendre compte.
 - Après push : `git status -sb` sans ahead/behind, à citer dans le compte rendu.
+
+## Langue
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

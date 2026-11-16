@@ -21,3 +21,5 @@ Principes :
 - Tu n'écris que les ADR et les fichiers de contrat ; le code applicatif revient à son propriétaire.
 
 Compte rendu (15 lignes au plus) : décision, fichiers créés ou modifiés, plan par agent, risques.
+
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

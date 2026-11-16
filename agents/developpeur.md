@@ -23,3 +23,5 @@ Correctif de bug :
 
 Compte rendu (15 lignes au plus) : fait, fichiers, vérifié (commande -> résultat réel), reste et risques.
 Une vérification non lancée ou en échec est écrite telle quelle.
+
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

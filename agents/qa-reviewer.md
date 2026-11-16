@@ -25,3 +25,5 @@ Procédure :
 
 Rapport (20 lignes au plus) : liste numérotée « fichier:ligne : problème -> correctif proposé (agent propriétaire) »,
 classée Bloquant, À corriger, Mineur, Non prouvé, puis le résultat réel de chaque vérification.
+
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

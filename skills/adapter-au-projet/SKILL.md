@@ -54,3 +54,6 @@ Ne fixe jamais `permissionMode`, `hooks` ni `mcpServers` dans un agent de plugin
 
 Activer l'orchestrateur sur le projet est un choix de l'utilisateur (`.claude/settings.json` : `"agent":
 "team-for-every-project:orchestrateur"`) : recommande-le seulement pour un projet qui a plusieurs domaines.
+
+## Langue
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.

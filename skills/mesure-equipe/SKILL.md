@@ -23,3 +23,5 @@ Motifs glob (`*`, `**`, `?`), `!motif` exclut. Sans elle, les éditions hors pé
 
 Limites : les éditions faites par PowerShell ou Bash ne sont pas vues ; tokens neufs = input + cache_creation + output,
 dédoublonnés par `message.id`.
+
+Langue : réponds (comptes rendus, questions) dans la langue de la demande, qui est celle de l'utilisateur, sauf instruction contraire ; les fichiers produits suivent la langue fixée par le projet.
