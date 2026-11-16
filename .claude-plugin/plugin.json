@@ -1,7 +1,7 @@
 {
   "name": "team-for-every-project",
-  "description": "Ã‰quipe d'agents gÃ©nÃ©rique (orchestrateur, architecte, dÃ©veloppeur, relecteur, documentaliste, coach) qui Ã©conomise les tokens et adapte le modÃ¨le Ã  la tÃ¢che, avec une skill pour l'adapter Ã  chaque projet.",
-  "version": "0.5.1",
+  "description": "Équipe d'agents générique (orchestrateur, architecte, développeur, relecteur, documentaliste, coach) qui économise les tokens et adapte le modèle à la tâche, avec une skill pour l'adapter à chaque projet.",
+  "version": "0.5.2",
   "author": { "name": "Romain LE MOAL" },
   "license": "SEE LICENSE IN LICENSE.md",
   "keywords": ["agents", "orchestration", "tokens", "team"]
