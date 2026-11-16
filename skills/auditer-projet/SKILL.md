@@ -1,6 +1,6 @@
 ---
 name: auditer-projet
-description: Audite un projet et classe les améliorations par gain prouvé (mesure, test, source datée), du code aux outils et à l'architecture, jusqu'au changement de langage s'il est mesuré meilleur.
+description: Audite un projet et classe les améliorations par gain prouvé, jusqu'au changement de langage ou d'outil. À utiliser pour auditer ou améliorer un projet, en toute langue (audit this project, auditar).
 ---
 # Auditer un projet
 
