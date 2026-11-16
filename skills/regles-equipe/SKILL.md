@@ -45,7 +45,11 @@ Un sous-agent ne voit pas la conversation. Cinq rubriques :
   sur des fichiers disjoints.
 - Fil long = cache relu à chaque tour : après 60 tours ou une pause de plus de 5 minutes, nouvel agent briefé avec le
   brief d'origine, chaque consigne ajoutée depuis et le dernier compte rendu (pas de `SendMessage`, qui perd des
-  consignes). Un chantier = une session ; `/clear` à la fin.
+  consignes).
+- Session principale : un chantier par session. Fin de chantier ou changement de sujet : note de reprise si un
+  travail reste, puis `/clear`. Pause de plus de 5 minutes en plein chantier : `/compact` avant (au retour, le cache
+  a expiré et tout le contexte est retraité). Modèle de la session (`/model`) : celui de la tâche (tableau ci-dessus),
+  pas opus par défaut pour de l'exécution ; `general-purpose` hérite de ce modèle, ne l'utilise pas.
 - Garder peu d'agents et de skills : leur nom et leur description sont chargés à chaque tour.
 - Un agent qui échoue deux fois sur la même tâche : changer d'approche, pas insister.
 - Mesurer avant de corriger : tokens dédoublonnés par `message.id` dans les transcripts (agent `coach-equipe`).

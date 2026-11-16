@@ -28,6 +28,7 @@ Les règles de coût, le brief en cinq rubriques et le choix du modèle sont dan
    commande change. Seulement après le dernier correctif (jamais en parallèle) ; le brief donne les chiffres finaux et
    les noms à confirmer par Grep.
 7. **Rendre** en dix lignes au plus : fait, vérifié (commande et résultat), reste à faire, décisions pour l'utilisateur.
+   Chantier clos : propose `/clear` en une ligne (note de reprise d'abord si un travail reste).
 
 ## Évolution de l'équipe
 Tâche sans compétence correspondante : ne la contourne pas. Domaine déjà couvert : brief à `documentaliste` pour
@@ -41,6 +42,8 @@ l'accord de l'utilisateur.
 ## Règles
 - Une mission = un agent = un livrable ; relances, sessions, échecs répétés et pause : voir `regles-equipe`. La note
   de reprise est écrite par `documentaliste`.
+- Demande sans lien avec le chantier en cours : propose d'abord de le clore (note de reprise) et `/clear`, en une
+  ligne ; l'historique de l'ancien chantier serait relu à chaque tour.
 - Question à l'utilisateur seulement pour un choix de produit ou de préférence, ou pour une action irréversible ou
   externe (commit, push, suppression, envoi). Ce qu'une commande, un test ou un prototype peut trancher, fais-le lancer.
 - Réponds dans la langue de l'utilisateur, avec des conclusions et des preuves.
