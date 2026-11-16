@@ -1,9 +1,9 @@
 ﻿#!/usr/bin/env python
 """Mesures de l'équipe d'agents, calculées sur les transcripts de Claude Code (Python 3.10+, bibliothèque standard seule).
 
-    team_metrics.py report [--since AAAA-MM-JJ] [--session ID]   Markdown de 80 lignes au plus
+    team_metrics.py report [--since AAAA-MM-JJ] [--session ID] [--pause-min N]   Markdown de 80 lignes au plus
     team_metrics.py run AGENT_ID                                 un run : statistiques, brief, compte rendu
-    team_metrics.py json [--since AAAA-MM-JJ] [--session ID]     toutes les données, run par run
+    team_metrics.py json [--since AAAA-MM-JJ] [--session ID] [--pause-min N]     toutes les données, run par run
     team_metrics.py check-owners                                 valide la carte de propriété (ownership.json)
     team_metrics.py selftest                                     auto-test sur un transcript synthétique
 
@@ -62,6 +62,7 @@ SECRET_PATTERNS = (
     (re.compile(rf"(--{SECRET_KEYS}(?:=|\s+)|\b{SECRET_KEYS}=)\S+", re.IGNORECASE), r"\g<1>" + MASK),
 )
 MAX_ROWS, MAX_WARNINGS, MAX_ANOMALIES = 25, 5, 10  # bornent le rapport à 80 lignes
+LONG_HOURS = 8  # signal : fil principal actif sur 8 heures distinctes ou plus
 
 
 @dataclass
@@ -74,6 +75,7 @@ class Scan:
     model: str = ""
     effort: str = ""
     usage: dict = field(default_factory=dict)  # message.id -> maximum par champ de tokens
+    msgs: dict = field(default_factory=dict)  # message.id -> (premier horodatage, modèle)
     tools: dict = field(default_factory=dict)  # tool_use.id -> (nom, horodatage, entrée utile)
     errors: dict = field(default_factory=dict)  # tool_use.id dont le résultat est en erreur -> extrait du message
     launched: dict = field(default_factory=dict)  # agentId -> tool_use.id de l'appel Agent qui l'a lancé
@@ -116,11 +118,13 @@ def scan(path):
             content = msg.get("content")
             blocks = [b for b in content if isinstance(b, dict)] if isinstance(content, list) else []
             if kind == "assistant":
+                model = msg.get("model") or o.get("requestedModel") or ""
                 if msg.get("id") and isinstance(msg.get("usage"), dict):
                     cur = s.usage.setdefault(msg["id"], dict.fromkeys(TOKEN_FIELDS, 0))
                     for k in TOKEN_FIELDS:
                         cur[k] = max(cur[k], msg["usage"].get(k) or 0)
-                model = msg.get("model") or o.get("requestedModel") or ""
+                    if isinstance(ts, str) and ts:
+                        s.msgs.setdefault(msg["id"], (ts, model))
                 if not s.model and not model.startswith("<"):  # "<synthetic>" : message du harnais
                     s.model = model
                 s.effort = s.effort or str(o.get("effort") or "")
@@ -313,10 +317,20 @@ def rubrics(text):
 
 
 def seconds(start, end):
+    iso = lambda t: datetime.fromisoformat(t.replace("Z", "+00:00"))  # Python 3.10 refuse le suffixe « Z »
     try:
-        return max(0.0, (datetime.fromisoformat(end) - datetime.fromisoformat(start)).total_seconds())
-    except ValueError:
+        return max(0.0, (iso(end) - iso(start)).total_seconds())
+    except (ValueError, TypeError):
         return 0.0
+
+
+def pct(part, whole):
+    return round(100 * part / whole) if whole else 0
+
+
+def fresh(u):
+    """Tokens neufs d'un usage : input + cache_creation + output."""
+    return u["input_tokens"] + u["cache_creation_input_tokens"] + u["output_tokens"]
 
 
 def in_period(ts, since):
@@ -363,7 +377,7 @@ def make_run(sid, aid, s, call, meta, root, own):
             "cache_creation": tokens["cache_creation_input_tokens"],
             "cache_read": tokens["cache_read_input_tokens"],
             "output": tokens["output_tokens"],
-            "new": tokens["input_tokens"] + tokens["cache_creation_input_tokens"] + tokens["output_tokens"],
+            "new": fresh(tokens),
             "total": sum(tokens.values()),
         },
         "edits": len(paths),
@@ -378,10 +392,39 @@ def make_run(sid, aid, s, call, meta, root, own):
     }
 
 
-def collect(project, root, own_path, since=None, session=None, orchestrator="orchestrateur"):
-    """Lit les transcripts du projet : runs de sous-agents, fil principal, briefs, avertissements."""
+def session_stat(sid, main, runs, since, pause_min):
+    """Hygiène d'une session, sur les messages de son fil principal dans la période ; None s'il n'y en a aucun.
+    Reprise à froid : message précédé de plus de pause_min minutes sans message, qui recrée plus de cache qu'il n'en
+    relit (cache expiré ; à chaud, seul le dernier échange est recréé et tout le reste est relu)."""
+    msgs = sorted((ts, mid, model) for mid, (ts, model) in main.msgs.items() if in_period(ts, since))
+    if not msgs:
+        return None
+    pauses = [
+        mid
+        for (prev, _, _), (ts, mid, _) in zip(msgs, msgs[1:])
+        if seconds(prev, ts) > 60 * pause_min
+        and main.usage[mid]["cache_creation_input_tokens"] > main.usage[mid]["cache_read_input_tokens"]
+    ]
+    models = Counter()
+    for _, mid, model in msgs:
+        models[model or "?"] += fresh(main.usage[mid])
+    gp = [r for r in runs if r["session"] == sid and r["agent"] == "general-purpose"]
+    return {
+        "session": sid,
+        "hours": len({ts[:13] for ts, _, _ in msgs}),  # AAAA-MM-JJTHH distinctes (UTC)
+        "pauses": len(pauses),
+        "pause_cache_creation": sum(main.usage[mid]["cache_creation_input_tokens"] for mid in pauses),
+        "new_tokens": sum(models.values()),
+        "models": {k: v for k, v in models.most_common() if v},
+        "general_purpose_runs": len(gp),
+        "general_purpose_new_tokens": sum(r["tokens"]["new"] for r in gp),
+    }
+
+
+def collect(project, root, own_path, since=None, session=None, orchestrator="orchestrateur", pause_min=5):
+    """Lit les transcripts du projet : runs de sous-agents, fil principal, briefs, sessions, avertissements."""
     own, warnings = load_ownership(own_path)
-    runs, briefs, stamps, active = [], [], [], set()
+    runs, briefs, stamps, active, stats = [], [], [], set(), []
     main_calls, main_paths, bad = Counter(), [], 0
     sids = sorted({p.stem for p in project.glob("*.jsonl")} | {p.parent.name for p in project.glob("*/subagents")})
     for sid in sids:
@@ -415,6 +458,8 @@ def collect(project, root, own_path, since=None, session=None, orchestrator="orc
             runs.append(make_run(sid, aid, s, tools.get(launched.get(aid) or meta.get("toolUseId")), meta, root, own))
             stamps += [s.first, s.last]
             active.add(sid)
+        if stat := session_stat(sid, main, runs, since, pause_min):
+            stats.append(stat)
     stamps = [t for t in stamps if t]
     if bad:
         warnings.append(f"{bad} ligne(s) JSON invalide(s) ignorée(s)")
@@ -435,6 +480,8 @@ def collect(project, root, own_path, since=None, session=None, orchestrator="orc
         "runs": sorted(runs, key=lambda r: r["start"]),
         "briefs": briefs,
         "main": {"tool_calls": dict(main_calls.most_common()), "edits": len(main_paths), "edit_files": len(inside)},
+        "pause_min": pause_min,
+        "session_stats": stats,
     }
 
 
@@ -573,6 +620,34 @@ def render_report(data):
     )
     out.append(f"- Éditions du fil principal : {main['edits']} appels sur {main['edit_files']} fichiers ({data['orchestrator']} ne devrait pas éditer)")
 
+    stats = data["session_stats"]
+    out += ["", "## Sessions", ""]
+    if stats:
+        main_new = sum(s["new_tokens"] for s in stats)
+        hours = [s["hours"] for s in stats]
+        long = sorted((s for s in stats if s["hours"] >= LONG_HOURS), key=lambda s: -s["hours"])
+        out.append(
+            f"- {len(stats)} sessions avec un fil principal ; heures distinctes : médiane {format(statistics.median(hours), 'g').replace('.', ',')}, max {max(hours)} ;"
+            f" {len(long)} à {LONG_HOURS} heures ou plus ({pct(sum(s['new_tokens'] for s in long), main_new)} % des tokens neufs du fil principal)"
+            + "".join(f"{' : ' if i == 0 else ', '}`{s['session'][:8]}` {s['hours']} h" for i, s in enumerate(long[:3]))
+        )
+        recreated = sum(s["pause_cache_creation"] for s in stats)
+        out.append(
+            f"- Reprises à froid (plus de {data['pause_min']} min sans message, plus de cache recréé que relu) : {sum(s['pauses'] for s in stats)} dans"
+            f" {sum(bool(s['pauses']) for s in stats)} sessions ; cache recréé {tok(recreated)} ({pct(recreated, main_new)} % des tokens neufs du fil principal)"
+        )
+        models = Counter()
+        for s in stats:
+            models.update(s["models"])
+        out.append("- Tokens neufs du fil principal par modèle : " + (", ".join(f"{m} {tok(n)} ({pct(n, main_new)} %)" for m, n in models.most_common(4)) or "aucun"))
+        gp_new = sum(s["general_purpose_new_tokens"] for s in stats)
+        out.append(
+            f"- general-purpose : {sum(s['general_purpose_runs'] for s in stats)} runs dans {sum(bool(s['general_purpose_runs']) for s in stats)} sessions,"
+            f" {tok(gp_new)} tokens neufs ({pct(gp_new, sum(r['tokens']['new'] for r in runs))} % des tokens neufs des sous-agents)"
+        )
+    else:
+        out.append("(aucun message du fil principal sur la période)")
+
     out += ["", "## Briefs", ""]
     if briefs:
         full = sum(len(b["rubrics"]) == len(RUBRICS) for b in briefs)
@@ -683,6 +758,28 @@ def selftest():
         assert check_owners(root, ownership_path(root)) == []
         assert check_owners(root, root / "absent.json") is None  # carte absente : contrôle sauté
         assert matches(["a/**/c.py"], "a/c.py") and not matches(["a/*"], "a/b/c") and matches(["A/*.PY"], "a/x.py")
+
+        # sessions : 9 heures distinctes, 10 min sans message puis cache expiré (plus recréé que relu), un run
+        # general-purpose ; les écarts d'une heure à cache chaud (recréé 5 < relu 100) ne sont pas des reprises
+        cold = {"input_tokens": 1, "cache_creation_input_tokens": 200, "cache_read_input_tokens": 50, "output_tokens": 1}
+        text = [{"type": "text", "text": "."}]
+        main2 = [
+            line("assistant", "2026-01-02T10:00:00Z", [use("g1", "Agent", {"subagent_type": "general-purpose", "prompt": "x"})], id="n0", usage=usage(1), model="big"),
+            line("user", "2026-01-02T10:00:01Z", [{"type": "tool_result", "tool_use_id": "g1", "content": "agentId: 0123456789abcdef"}]),
+            line("assistant", "2026-01-02T10:10:00Z", text, id="n1", usage=cold, model="big"),
+            *(line("assistant", f"2026-01-02T{h}:00:00Z", text, id=f"n{h}", usage=usage(1), model="big") for h in range(11, 19)),
+        ]
+        (sess / "s2" / "subagents").mkdir(parents=True)
+        (sess / "s2.jsonl").write_text("\n".join(main2), encoding="utf-8")
+        gp_run = line("assistant", "2026-01-02T10:01:00Z", text, id="x1", usage=usage(2), model="m")
+        (sess / "s2" / "subagents" / "agent-0123456789abcdef.jsonl").write_text(gp_run, encoding="utf-8")
+        data = collect(sess, root, ownership_path(root), session="s2")
+        (st,) = data["session_stats"]
+        assert st["hours"] == 9 and st["pauses"] == 1 and st["pause_cache_creation"] == 200, st
+        assert st["general_purpose_runs"] == 1 and st["general_purpose_new_tokens"] == 17, st
+        assert st["models"] == {"big": 16 + 202 + 8 * 16} and st["new_tokens"] == 346, st
+        report = render_report(data)
+        assert f"1 à {LONG_HOURS} heures ou plus" in report and "`s2` 9 h" in report, report
     print("selftest OK")
     return 0
 
@@ -715,6 +812,7 @@ def build_parser():
         s = sub.add_parser(name, help=text, parents=[common])
         s.add_argument("--since", type=date_arg, help="à partir de cette date (UTC)")
         s.add_argument("--session", help="identifiant de session, ou son début")
+        s.add_argument("--pause-min", type=int, default=5, help="minutes sans message au-delà desquelles une reprise compte (défaut : 5)")
     sub.add_parser("run", help="un run : statistiques, brief, compte rendu", parents=[common]).add_argument("agent_id")
     sub.add_parser("check-owners", help="valide la carte de propriété contre .claude/agents/*.md", parents=[common])
     sub.add_parser("selftest", help="auto-test sur un transcript synthétique", parents=[common])
@@ -750,7 +848,7 @@ def main(argv=None):
             return 1
         print(render_run(found[0]))
         return 0
-    data = collect(project, root, own_path, args.since, args.session, args.orchestrator)
+    data = collect(project, root, own_path, args.since, args.session, args.orchestrator, args.pause_min)
     print(render_report(data) if args.cmd == "report" else as_json(data))
     return 0
 

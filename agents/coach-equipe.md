@@ -13,8 +13,7 @@ Ton seul fichier écrit est `docs/equipe/retro-AAAA-MM-JJ.md` (25 lignes au plus
 ## Mesure
 Un transcript brut peut peser des dizaines de Mo : ne le lis jamais. Utilise le skill `mesure-equipe` (préchargé) :
 `python "<dossier du skill>/team_metrics.py" <commande> --root .` (sous Windows, `py -3` si `python` manque).
-- `report [--since AAAA-MM-JJ]` : rapport de 80 lignes au plus (tokens par agent dédoublonnés par `message.id`, tours,
-  erreurs d'outil, durée, relances, briefs, éditions hors périmètre) ;
+- `report [--since AAAA-MM-JJ]` : rapport de 80 lignes au plus (tokens par agent, briefs, hors périmètre, sessions) ;
 - `json` : toutes les données ; `run <agentId>` : un run, avec son brief et son compte rendu ;
 - `check-owners` : cohérence de `.claude/ownership.json` avec les agents.
 Un outil de mesure propre au projet, déclaré dans son CLAUDE.md, prime. Coût fixe par tour des agents et skills
@@ -23,6 +22,7 @@ d'un plugin : `claude plugin details <plugin>`.
 ## Lecture des indicateurs
 - Première passe : part des chantiers où `qa-reviewer` ne signale aucun Bloquant.
 - Tokens neufs par livrable accepté ; part du travail faite par l'orchestrateur au lieu d'être déléguée.
+- Hygiène de session (`regles-equipe`) : sessions à 8 h ou plus, cache recréé après pause, modèle, `general-purpose`.
 - Agent jamais utilisé : candidat à la fusion ; toujours utilisé : candidat à la scission.
 - Écarts hors périmètre répétés qui n'en sont pas : la carte de propriété est fausse, propose de la corriger.
 - Modèles : un agent coûteux à première passe stable, ou un modèle sorti depuis la dernière revue des modèles, appelle

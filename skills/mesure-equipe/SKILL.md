@@ -7,6 +7,7 @@ Il lit les transcripts du projet en lecture seule et sort des agrégats de quelq
 
 Lancement, depuis la racine du projet (sous Windows, si `python` est absent, remplace-le par `py -3`) :
 - `python "<dossier de ce skill>/team_metrics.py" report --root .` : rapport Markdown de 80 lignes au plus ; options `--since AAAA-MM-JJ`, `--session <id>`
+- section « Sessions » du rapport : heures distinctes du fil principal (signal à 8), reprises à froid (plus de `--pause-min` minutes sans message, défaut 5, et plus de cache recréé que relu) et cache recréé, tokens neufs par modèle, runs `general-purpose`
 - `... json --root .` : toutes les données, run par run
 - `... run <agentId> --root .` : un run (statistiques, brief, compte rendu final)
 - `... check-owners --root .` : valide la carte de propriété contre `.claude/agents/*.md` (OK ou KO ; sautée s'il n'y en a pas)
